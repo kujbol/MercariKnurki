@@ -1,18 +1,21 @@
 import random
 import csv
+from typing import Dict
+
+import numpy as np
 
 from simulation.clients import big_seller, small_seller, individual_buyer, UserType
 from simulation.transaction import Transaction
 
 user_types_mapping = {
-    big_seller: 1,
-    small_seller: 10,
-    individual_buyer: 100,
+    big_seller: 0,
+    small_seller: 100,
+    individual_buyer: 10000,
 }
 
 
 class Simulation:
-    def __init__(self, user_types_mapping):
+    def __init__(self, user_types_mapping: Dict[str, int]):
         self.user_types = user_types_mapping
         self.buyers = []
         self.sellers = []
@@ -59,7 +62,9 @@ class Simulation:
         seller.sell -= 1
         buyer.buy -= 1
 
-        return Transaction(buyer.id, seller.id)
+        value = np.random.uniform(0.01, 10000)
+
+        return Transaction(buyer, seller, value)
 
     def save_transaction(self, transaction, output):
         output.writerow(transaction)
