@@ -166,3 +166,7 @@ fabric.properties
 # Editor-based Rest Client
 .idea/httpRequests
 .idea
+
+data_gathering/scrapped.csv
+data_gathering/to_visit.txt
+data_gathering/visited.txt

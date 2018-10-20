@@ -73,16 +73,18 @@ def get_data(rate, user_id, url, dict_writer):
         return
 
 
-if os.path.exists('visited.csv'):
-    with open('visited.csv') as visited_file:
-        csv.reader(visited_file)
+if os.path.exists('visited.txt'):
+    with open('visited.txt') as visited_file:
+        visited = visited_file.read().split(',')
 
 
-with open('scrapped.csv', 'w') as scrape_file, open('visited.csv', 'w') as visited_file, open('to_visit.csv') as to_visit_file:
-    visited_saver = csv.writer('visited.csv')
+if os.path.exists('to_visit.txt'):
+    with open('to_visit.txt') as to_visit_file:
+        to_visit = to_visit_file.read().split(',')
 
+
+with open('scrapped.csv', 'a+') as scrape_file:
     dict_writer = csv.DictWriter(scrape_file, ['buyer', 'seller', 'rate', 'date'])
-    dict_writer.writeheader()
     while to_visit:
         user_id = to_visit.pop()
         visited.append(user_id)
@@ -90,3 +92,9 @@ with open('scrapped.csv', 'w') as scrape_file, open('visited.csv', 'w') as visit
         gather_user(user_id, dict_writer)
 
         scrape_file.flush()
+
+        with open('visited.txt', 'w+') as visited_file:
+            visited_file.write(','.join(visited))
+
+        with open('to_visit.txt', 'w+') as to_visit_file:
+            to_visit_file.write(','.join(to_visit))
