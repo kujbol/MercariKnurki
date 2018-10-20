@@ -86,7 +86,7 @@ if os.path.exists('to_visit.txt'):
 with open('scrapped.csv', 'a+') as scrape_file:
     dict_writer = csv.DictWriter(scrape_file, ['buyer', 'seller', 'rate', 'date'])
     while to_visit:
-        user_id = to_visit.pop()
+        user_id = to_visit.pop(0)
         visited.append(user_id)
         print(f'getting user{user_id}')
         gather_user(user_id, dict_writer)
